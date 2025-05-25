@@ -51,10 +51,10 @@ class ChildController extends Controller
         if ($request->hasFile('qr_code')) {
             $file = $request->file('qr_code');
             $fileName = time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('public/qr_codes', $fileName);
-            $childData['qr_code'] = $fileName; // Save filename to database
+            $path = $file->storeAs('qr_codes', $fileName, 'public');
+            $childData['qr_code'] = Storage::disk('public')->url($path);
         } else {
-            $childData['qr_code'] = null; // Ensure qr_code is null if no file is uploaded
+            $childData['qr_code'] = null;
         }
 
         // Create a new child using the validated data
